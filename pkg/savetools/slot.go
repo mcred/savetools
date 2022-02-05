@@ -1,4 +1,4 @@
-package saveutils
+package savetools
 
 type Slot struct {
 	Start int

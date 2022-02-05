@@ -1,4 +1,4 @@
-package saveutils
+package savetools
 
 import (
 	"errors"
