@@ -1,13 +1,13 @@
 package savetools_test
 
 import (
-	"SaveUtils/pkg/savetools"
+	"github.com/mcred/savetools"
 	"reflect"
 	"testing"
 )
 
-var card1, err1 = savetools.Load("../../tests/files/snes/save1.sav", 3, 0xA00)
-var card2, err2 = savetools.Load("../../tests/files/snes/save2.sav", 3, 2560)
+var card1, err1 = savetools.Load("./tests/files/snes/save1.sav", 3, 0xA00)
+var card2, err2 = savetools.Load("./tests/files/snes/save2.sav", 3, 2560)
 
 func TestCanLoad(t *testing.T) {
 	if reflect.TypeOf(card1) != reflect.TypeOf(savetools.Card{}) {

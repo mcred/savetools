@@ -1,8 +1,8 @@
 package savetools_test
 
 import (
-	"SaveUtils/pkg/savetools"
 	"encoding/binary"
+	"github.com/mcred/savetools"
 	"testing"
 )
 
