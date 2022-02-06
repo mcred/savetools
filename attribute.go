@@ -8,21 +8,21 @@ type Attribute struct {
 	Endianness binary.ByteOrder `json:"endianness"`
 }
 
-func (c *Card) GetValue(a Attribute) uint {
+func (c *Card) GetValue(a Attribute) int {
 	l := a.Location
 	switch a.Bits {
 	case 64:
-		return uint(a.Endianness.Uint64(c.Data[l : l+8]))
+		return int(a.Endianness.Uint64(c.Data[l : l+8]))
 	case 32:
-		return uint(a.Endianness.Uint32(c.Data[l : l+4]))
+		return int(a.Endianness.Uint32(c.Data[l : l+4]))
 	case 16:
-		return uint(a.Endianness.Uint16(c.Data[l : l+2]))
+		return int(a.Endianness.Uint16(c.Data[l : l+2]))
 	default:
-		return uint(c.Data[a.Location])
+		return int(c.Data[a.Location])
 	}
 }
 
-func (c *Card) SetValue(a Attribute, v uint) {
+func (c *Card) SetValue(a Attribute, v int) {
 	l := a.Location
 	switch a.Bits {
 	case 64:
