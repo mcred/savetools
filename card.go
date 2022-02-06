@@ -6,10 +6,10 @@ import (
 )
 
 type Card struct {
-	Path       string
-	Data       []byte
-	Slots      []Slot
-	ActiveSlot int
+	Path       string `json:"path"`
+	Data       []byte `json:"data"`
+	Slots      []Slot `json:"slots"`
+	ActiveSlot int    `json:"activeSlot"`
 }
 
 func Load(path string, blocks int, size int) (Card, error) {

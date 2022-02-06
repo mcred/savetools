@@ -3,9 +3,9 @@ package savetools
 import "encoding/binary"
 
 type Attribute struct {
-	Location   int
-	Bits       int
-	Endianness binary.ByteOrder
+	Location   int              `json:"location"`
+	Bits       int              `json:"bits"`
+	Endianness binary.ByteOrder `json:"endianness"`
 }
 
 func (c *Card) GetValue(a Attribute) uint {

@@ -1,8 +1,8 @@
 package savetools
 
 type Slot struct {
-	Start int
-	Size  int
+	Start int `json:"start"`
+	Size  int `json:"size"`
 }
 
 func (c *Card) SetActiveSlot(i int) {
