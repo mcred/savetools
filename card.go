@@ -19,7 +19,8 @@ func Load(path string, blocks int, size int) (Card, error) {
 	}
 	var slots []Slot
 	for i := 0; i < blocks; i++ {
-		slots = append(slots, Slot{i * 8, size})
+		start := i * size
+		slots = append(slots, Slot{start, size, f[start : start+size]})
 	}
 	return Card{Path: path, Data: f, Slots: slots, ActiveSlot: 0}, nil
 }
@@ -30,4 +31,20 @@ func (c *Card) Save() error {
 		return errors.New("unable to save file")
 	}
 	return nil
+}
+
+func (c *Card) GetValue(a Attribute) int {
+	return getValueFromBytes(c.Data, a)
+}
+
+func (c *Card) SetValue(a Attribute, v int) {
+	setValueInBytes(c.Data, a, v)
+}
+
+func (c *Card) SetActiveSlot(i int) {
+	c.ActiveSlot = i
+}
+
+func (c *Card) GetActiveSlot() Slot {
+	return c.Slots[c.ActiveSlot]
 }

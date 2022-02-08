@@ -1,20 +1,55 @@
 package savetools
 
 type Slot struct {
-	Start int `json:"start"`
-	Size  int `json:"size"`
+	Start int    `json:"start"`
+	Size  int    `json:"size"`
+	Data  []byte `json:"data"`
 }
 
-func (c *Card) SetActiveSlot(i int) {
-	c.ActiveSlot = i
+func getValueFromBytes(b []byte, a Attribute) int {
+	l := a.Location
+	switch a.Bits {
+	case 64:
+		return int(a.Endianness.Uint64(b[l : l+8]))
+	case 32:
+		return int(a.Endianness.Uint32(b[l : l+4]))
+	case 16:
+		return int(a.Endianness.Uint16(b[l : l+2]))
+	default:
+		return int(b[a.Location])
+	}
 }
 
-func (c *Card) GetValueForSlot(a Attribute) int {
-	a.Location = a.Location + (c.ActiveSlot * c.Slots[c.ActiveSlot].Size)
-	return c.GetValue(a)
+func setValueInBytes(b []byte, a Attribute, v int) {
+	l := a.Location
+	switch a.Bits {
+	case 64:
+		r := make([]byte, 8)
+		a.Endianness.PutUint64(r, uint64(v))
+		for i := 0; i < 8; i++ {
+			b[l+i] = r[i]
+		}
+	case 32:
+		r := make([]byte, 4)
+		a.Endianness.PutUint32(r, uint32(v))
+		for i := 0; i < 4; i++ {
+			b[l+i] = r[i]
+		}
+	case 16:
+		r := make([]byte, 2)
+		a.Endianness.PutUint16(r, uint16(v))
+		for i := 0; i < 2; i++ {
+			b[l+i] = r[i]
+		}
+	default:
+		b[a.Location] = byte(v)
+	}
 }
 
-func (c *Card) SetValueForSlot(a Attribute, v int) {
-	a.Location = a.Location + (c.ActiveSlot * c.Slots[c.ActiveSlot].Size)
-	c.SetValue(a, v)
+func (s *Slot) GetValue(a Attribute) int {
+	return getValueFromBytes(s.Data, a)
+}
+
+func (s *Slot) SetValue(a Attribute, v int) {
+	setValueInBytes(s.Data, a, v)
 }
