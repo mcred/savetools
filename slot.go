@@ -53,3 +53,15 @@ func (s *Slot) GetValue(a Attribute) int {
 func (s *Slot) SetValue(a Attribute, v int) {
 	setValueInBytes(s.Data, a, v)
 }
+
+func (s *Slot) Erase() {
+	s.Data = make([]byte, s.Size)
+}
+
+func (s *Slot) CopyTo(destination *Slot) {
+	destination.Data = s.Data
+}
+
+func (s *Slot) CopyFrom(source *Slot) {
+	s.Data = source.Data
+}
